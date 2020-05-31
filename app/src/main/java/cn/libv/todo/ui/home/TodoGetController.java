@@ -14,9 +14,9 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.libv.todo.Constant;
-import cn.libv.todo.net.CallBack;
 import cn.libv.todo.utils.SharePrefenrenceUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -32,8 +32,14 @@ class TodoGetController {
     private SharePrefenrenceUtils sharePrefenrenceUtils;
 
     HomeViewModel homeViewModel;
+
     int SEND = 1;
+
+    int code;
+
     String s;
+
+    List<Todo> list;
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
@@ -41,7 +47,9 @@ class TodoGetController {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what==SEND){
-                homeViewModel.setText(s);
+                if (code==200){
+                    homeViewModel.setTodoList(list);
+                }
             }
         }
     };
@@ -93,14 +101,14 @@ class TodoGetController {
                         JsonParser jsonParser = new JsonParser();
                         try {
                             JsonArray jsonElements = jsonParser.parse(data).getAsJsonArray();//获取JsonArray对象
-                            ArrayList<Todo> beans = new ArrayList<>();
-                            s = "";
+                            list = new ArrayList<>();
                             for (JsonElement bean : jsonElements) {
                                 Todo todo = gson.fromJson(bean, Todo.class);//解析
-                                beans.add(todo);
-                                s = s + (todo.getContent() + "/" + todo.getTime() + "\n");
+                                list.add(todo);
                             }
-                        }catch (Exception e){
+                            code = 200;
+                        } catch (Exception e) {
+                            code = 404;
                             s = e.toString();
                         }
                         handler.sendEmptyMessage(SEND);
