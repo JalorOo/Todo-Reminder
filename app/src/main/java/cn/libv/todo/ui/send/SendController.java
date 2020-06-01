@@ -1,6 +1,7 @@
 package cn.libv.todo.ui.send;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
@@ -10,8 +11,10 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import cn.libv.todo.Constant;
 import cn.libv.todo.net.CallBack;
 import cn.libv.todo.ui.home.Todo;
+import cn.libv.todo.utils.SharePrefenrenceUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -21,6 +24,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 class SendController {
+
+    private SharePrefenrenceUtils sharePrefenrenceUtils;
 
     Todo todo;
 
@@ -41,11 +46,23 @@ class SendController {
         }
     };
 
+    SendController(Context context){
+        sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.name);
+    }
+
     public void setTodo(Todo todo) {
         this.todo = todo;
     }
 
     void send(SendFragment sendFragment){
+        String id = sharePrefenrenceUtils.QueryShare("id","");
+
+        if (id.equals("")){
+            s = "please login again";
+            handler.sendEmptyMessage(SEND);
+            return;
+        }
+
         this.sendFragment = sendFragment;
         //1.创建OkHttpClient对象
         String url = "https://sunshinesudio.club:8020/todo/add?";
@@ -55,6 +72,7 @@ class SendController {
                 .add("uid", String.valueOf(todo.getUid()))
                 .add("content",todo.getContent())
                 .add("time",todo.getTime())
+                .add("oid",id)
                 .build();
 
         final Request request = new Request.Builder()
@@ -82,9 +100,9 @@ class SendController {
                         Gson gson = new Gson();//创建Gson对象
                         CallBack callBack = gson.fromJson(data, CallBack.class);//解析
                         if (callBack.getCode()==200){
-                            s = "success";
+                            s = "send success";
                         } else {
-                            s = callBack.getInfo();
+                            s = "fail,please check your network";
                         }
                         handler.sendEmptyMessage(SEND);
                     }

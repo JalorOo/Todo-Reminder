@@ -3,15 +3,17 @@ package cn.libv.todo.ui.home;
 //{"content":"1","id":1,"time":"2020-05-01","uid":1}
 
 public class Todo {
-    private Long id;
+    private long id;
 
     private String content;
 
     private String time;
 
-    private Long uid;
+    private long uid;
 
-    public Long getId() {
+    private long oid;
+
+    public long getId() {
         return id;
     }
 
@@ -19,7 +21,16 @@ public class Todo {
         this.id = id;
     }
 
-    public Long getUid() {
+    public Todo(){}
+
+    public Todo(long id, String content, String time, long uid,long oid) {
+        this.id = id;
+        this.content = content;
+        this.time = time;
+        this.uid = uid;
+    }
+
+    public long getUid() {
         return uid;
     }
 
@@ -41,5 +52,13 @@ public class Todo {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public long getOid() {
+        return oid;
+    }
+
+    public void setOid(long oid) {
+        this.oid = oid;
     }
 }

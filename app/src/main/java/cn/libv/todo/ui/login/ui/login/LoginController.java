@@ -87,7 +87,7 @@ class LoginController {
                         CallBack callBack = gson.fromJson(data, CallBack.class);//解析
                         Log.v(getClass().getName(),"info:"+callBack.getCode()+"/"+callBack.getInfo());
                         if (callBack.getCode()==200){
-                            s = "success";
+                            s = "login success";
                             sharePrefenrenceUtils.setShare("name",name);
                             sharePrefenrenceUtils.setShare("password",password);
                             sharePrefenrenceUtils.setShare("id",callBack.getInfo());
@@ -134,7 +134,7 @@ class LoginController {
                 String data = response.body().string();
                 Gson gson = new Gson();//创建Gson对象
                 CallBack callBack = gson.fromJson(data, CallBack.class);//解析
-                s = callBack.getInfo();
+                s = "register "+ callBack.getInfo();
                 if (callBack.getCode()==200){
                     sharePrefenrenceUtils.setShare("name",name);
                     sharePrefenrenceUtils.setShare("password",password);

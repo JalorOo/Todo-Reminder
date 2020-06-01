@@ -23,18 +23,16 @@ import cn.libv.todo.ui.home.Todo;
 
 public class SendFragment extends Fragment {
 
-    private SendViewModel sendViewModel;
     private SendController sendController;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        sendViewModel = new ViewModelProvider(this).get(SendViewModel.class);
         View root = inflater.inflate(R.layout.fragment_send, container, false);
         final EditText mContent = root.findViewById(R.id.et_content);
         final EditText mTime = root.findViewById(R.id.et_time);
         final EditText mPerson = root.findViewById(R.id.et_person);
         final FloatingActionButton mSend = root.findViewById(R.id.send);
-        sendController = new SendController();
+        sendController = new SendController(getContext());
         final Todo todo = new Todo();
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
