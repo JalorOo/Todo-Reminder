@@ -85,15 +85,14 @@ class TodoGetController {
     }
 
     void getTodoDataFromDataBase(){
-
-                List<TodoEntity> todoList = todoEntityDao.getAllTodoEntity();
-                list.clear();
-                for (TodoEntity todo: todoList) {
-                    Todo t = new Todo(todo.getCid(),todo.getContent(),todo.getTime(),todo.getUid(),todo.getCid());
-                    list.add(t);
-                }
-                code=200;
-                handler.sendEmptyMessage(SEND);
+        List<TodoEntity> todoList = todoEntityDao.getAllTodoEntity();
+        list.clear();
+        for (TodoEntity todo: todoList) {
+            Todo t = new Todo(todo.getCid(),todo.getContent(),todo.getTime(),todo.getUid(),todo.getCid());
+            list.add(t);
+        }
+        code=200;
+        handler.sendEmptyMessage(SEND);
     }
 
     //从服务器上获取数据
@@ -127,8 +126,7 @@ class TodoGetController {
                     //请求失败执行的方法
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        s = e.toString();
-                        handler.sendEmptyMessage(SEND);
+                        list = new ArrayList<>();
                         getTodoDataFromDataBase();
                     }
                     //请求成功执行的方法
