@@ -30,12 +30,16 @@ class LoginController {
 
     Context context;
 
-    LoginController(Context context){
-        this.context = context;
+    LoginViewModel loginViewModel;
+
+    LoginController(LoginViewModel loginViewModel,Context context){
+        this.loginViewModel = loginViewModel;
+        this.context = context.getApplicationContext();
         sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.name);
     }
 
     int SEND = 1;
+    int SUCCESS = 2;
     String s;
 
     @SuppressLint("HandlerLeak")
@@ -45,6 +49,8 @@ class LoginController {
             super.handleMessage(msg);
             if (msg.what==SEND){
                 Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
+            }else if (msg.what==SUCCESS){
+                loginViewModel.setIsLogin(true);
             }
         }
     };
@@ -91,6 +97,7 @@ class LoginController {
                             sharePrefenrenceUtils.setShare("name",name);
                             sharePrefenrenceUtils.setShare("password",password);
                             sharePrefenrenceUtils.setShare("id",callBack.getInfo());
+                            handler.sendEmptyMessage(SUCCESS);
                             handler.sendEmptyMessage(SEND);
                         } else if (callBack.getCode()==402) {
                             register(name,password);
@@ -134,7 +141,7 @@ class LoginController {
                 String data = response.body().string();
                 Gson gson = new Gson();//创建Gson对象
                 CallBack callBack = gson.fromJson(data, CallBack.class);//解析
-                s = "register "+ callBack.getInfo();
+                s = "register "+ callBack.getInfo()+"\nyou can login now";
                 if (callBack.getCode()==200){
                     sharePrefenrenceUtils.setShare("name",name);
                     sharePrefenrenceUtils.setShare("password",password);
@@ -142,5 +149,13 @@ class LoginController {
                 handler.sendEmptyMessage(SEND);
             }
         });
+    }
+
+    void loginOut(){
+        sharePrefenrenceUtils.setShare("name","");
+        sharePrefenrenceUtils.setShare("password","");
+        sharePrefenrenceUtils.setShare("id","");
+        s = "login out success";
+        handler.sendEmptyMessage(SEND);
     }
 }

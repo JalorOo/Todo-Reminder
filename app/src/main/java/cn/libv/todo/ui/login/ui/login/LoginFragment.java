@@ -41,14 +41,43 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
-        loginController = new LoginController(getContext());
+        loginController = new LoginController(loginViewModel,getContext());
         final EditText usernameEditText = view.findViewById(R.id.username);
         final EditText passwordEditText = view.findViewById(R.id.password);
         final Button loginButton = view.findViewById(R.id.login);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
         final TextView id = view.findViewById(R.id.id);
+        final Button loginOut = view.findViewById(R.id.btn_login_out);
 
         loginViewModel.setData(getContext());
+
+        loginViewModel.getIsLogin().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    usernameEditText.setVisibility(View.GONE);
+                    passwordEditText.setVisibility(View.GONE);
+                    loginButton.setVisibility(View.GONE);
+                    loginOut.setVisibility(View.VISIBLE);
+                    id.setVisibility(View.VISIBLE);
+                } else {
+                    loginOut.setVisibility(View.GONE);
+                    id.setVisibility(View.GONE);
+                    usernameEditText.setVisibility(View.VISIBLE);
+                    passwordEditText.setVisibility(View.VISIBLE);
+                    loginButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        loginOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginController.loginOut();
+                loginViewModel.setIsLogin(false);
+            }
+        });
+
         loginViewModel.getName().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -82,7 +111,6 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {

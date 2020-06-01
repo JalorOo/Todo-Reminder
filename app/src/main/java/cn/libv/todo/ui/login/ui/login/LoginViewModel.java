@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Patterns;
 
 import cn.libv.todo.R;
@@ -22,6 +23,15 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<String> password ;
     private MutableLiveData<String> id ;
     private SharePrefenrenceUtils sharePrefenrenceUtils;
+    private MutableLiveData<Boolean> isLogin;
+
+    public void setIsLogin(Boolean isLogin) {
+        if (this.isLogin==null){
+            this.isLogin = new MutableLiveData<>();
+        }
+        Log.d(getClass().getName(),"setIsLogin : "+isLogin);
+        this.isLogin.setValue(isLogin);
+    }
 
     void setData(Context context){
         sharePrefenrenceUtils = new SharePrefenrenceUtils(context,"User");
@@ -30,7 +40,17 @@ public class LoginViewModel extends ViewModel {
         id = new MutableLiveData<>();
         name.setValue(sharePrefenrenceUtils.QueryShare("name",""));
         password.setValue(sharePrefenrenceUtils.QueryShare("password",""));
-        id.setValue(sharePrefenrenceUtils.QueryShare("id",""));
+        String i = sharePrefenrenceUtils.QueryShare("id","");
+        id.setValue(i);
+        if (i.contentEquals("")){
+            setIsLogin(false);
+        } else {
+            setIsLogin(true);
+        }
+    }
+
+    MutableLiveData<Boolean> getIsLogin(){
+        return isLogin;
     }
 
     LoginViewModel(LoginRepository loginRepository) {
