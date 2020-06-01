@@ -180,7 +180,7 @@ class TodoGetController {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         s = e.toString();
-                        handler.sendEmptyMessage(SEND);
+                        handler.sendEmptyMessage(INFO);
                     }
                     //请求成功执行的方法
                     @Override
