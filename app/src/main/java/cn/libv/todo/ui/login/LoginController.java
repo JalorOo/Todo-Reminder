@@ -1,4 +1,4 @@
-package cn.libv.todo.ui.login.ui.login;
+package cn.libv.todo.ui.login;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

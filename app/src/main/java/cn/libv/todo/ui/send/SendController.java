@@ -32,9 +32,9 @@ class SendController {
 
     private Todo todo;
 
-    private final int SEND = 1;
+    private final int INFO = 1;
 
-    private String s;
+    private String info;
 
     private SendFragment sendFragment;
 
@@ -43,8 +43,8 @@ class SendController {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what==SEND){
-                sendFragment.Toast(s);
+            if (msg.what==INFO){
+                sendFragment.Toast(info);
             }
         }
     };
@@ -61,8 +61,8 @@ class SendController {
         String id = sharePrefenrenceUtils.QueryShare(Constant.ID,"");
 
         if (id.equals("")){//检查本地缓存的用户ID，若ID为空，则需要用户重新登录
-            s = "please login again";
-            handler.sendEmptyMessage(SEND);
+            info = "please login again";
+            handler.sendEmptyMessage(INFO);
             return;
         }
 
@@ -93,8 +93,8 @@ class SendController {
                     //请求失败执行的方法
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        s = e.toString();
-                        handler.sendEmptyMessage(SEND);
+                        info = e.toString();
+                        handler.sendEmptyMessage(INFO);
                     }
                     //请求成功执行的方法
                     @Override
@@ -103,11 +103,11 @@ class SendController {
                         Gson gson = new Gson();//创建Gson对象
                         CallBack callBack = gson.fromJson(data, CallBack.class);//解析
                         if (callBack.getCode()==200){
-                            s = "send success";
+                            info = "send success";
                         } else {
-                            s = "fail,please check your network";
+                            info = "fail,please check your network";
                         }
-                        handler.sendEmptyMessage(SEND);
+                        handler.sendEmptyMessage(INFO);
                     }
                 });
             }

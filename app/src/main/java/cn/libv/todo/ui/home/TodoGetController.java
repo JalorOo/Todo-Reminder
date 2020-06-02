@@ -79,6 +79,7 @@ class TodoGetController {
         }.start();
     }
 
+    //从本地数据库获得数据
     void getTodoDataFromDataBase(){
         List<TodoEntity> todoList = todoEntityDao.getAllTodoEntity();
         list.clear();

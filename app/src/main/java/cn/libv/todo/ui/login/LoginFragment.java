@@ -1,4 +1,4 @@
-package cn.libv.todo.ui.login.ui.login;
+package cn.libv.todo.ui.login;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
