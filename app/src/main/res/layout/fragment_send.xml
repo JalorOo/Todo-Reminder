@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:endIconMode="clear_text"
         app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -18,13 +19,12 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_content"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:hint="Remind Content"
+            android:hint="Content"
             android:textAlignment="textStart"
             android:textSize="20sp" />
 
@@ -34,10 +34,10 @@
         android:id="@+id/textInputLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
         android:layout_marginStart="8dp"
         android:layout_marginTop="204dp"
         android:layout_marginEnd="8dp"
+        app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
             android:id="@+id/et_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="The User ID you want to remind"
+            android:hint="To user's id"
             android:inputType="number"
             android:textAlignment="textStart"
             android:textSize="20sp" />
@@ -58,10 +58,10 @@
         android:id="@+id/textInputLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
         android:layout_marginStart="8dp"
         android:layout_marginTop="112dp"
         android:layout_marginEnd="8dp"
+        app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,11 +71,10 @@
             android:id="@+id/et_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Time"
             android:textAlignment="textStart"
-            android:hint="The time you wan to remind"
             android:textSize="20sp"
-            app:boxBackgroundMode="outline"
-            />
+            app:boxBackgroundMode="outline" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,12 +82,26 @@
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
         android:src="@drawable/ic_tick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.88" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
