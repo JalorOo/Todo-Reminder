@@ -21,6 +21,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import cn.libv.todo.R;
 import cn.libv.todo.ui.home.Todo;
 
+/*
+* 发送页
+* */
 public class SendFragment extends Fragment {
 
     private SendController sendController;
@@ -37,6 +40,9 @@ public class SendFragment extends Fragment {
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mTime.getText().toString().equals("")||mContent.getText().toString().equals("")||mPerson.getText().toString().equals("")){
+                    return;
+                }//若没有填写信息则不继续执行
                 todo.setTime(mTime.getText().toString());
                 todo.setContent(mContent.getText().toString());
                 todo.setUid(Long.valueOf(mPerson.getText().toString()));

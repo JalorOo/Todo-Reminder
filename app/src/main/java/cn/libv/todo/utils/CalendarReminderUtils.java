@@ -12,17 +12,18 @@ import android.text.TextUtils;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-/*添加日历提醒的Utils*/
+/*添加日历提醒的Utils
+* 后续使用*/
 public class CalendarReminderUtils {
 
     private static String CALENDER_URL = "content://com.android.calendar/calendars";
     private static String CALENDER_EVENT_URL = "content://com.android.calendar/events";
     private static String CALENDER_REMINDER_URL = "content://com.android.calendar/reminders";
 
-    private static String CALENDARS_NAME = "boohee";
-    private static String CALENDARS_ACCOUNT_NAME = "BOOHEE@boohee.com";
-    private static String CALENDARS_ACCOUNT_TYPE = "com.android.boohee";
-    private static String CALENDARS_DISPLAY_NAME = "BOOHEE账户";
+    private static String CALENDARS_NAME = "Jalor";
+    private static String CALENDARS_ACCOUNT_NAME = "Jalorbamboo@gmail.com";
+    private static String CALENDARS_ACCOUNT_TYPE = "com.android.Jalor";
+    private static String CALENDARS_DISPLAY_NAME = "Jalor账户";
 
     /**
      * 检查是否已经添加了日历账户，如果没有添加先添加一个日历账户再查询

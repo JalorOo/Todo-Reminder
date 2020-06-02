@@ -23,20 +23,23 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/*
+* 提交数据类
+* */
 class SendController {
 
     private SharePrefenrenceUtils sharePrefenrenceUtils;
 
-    Todo todo;
+    private Todo todo;
 
-    int SEND = 1;
+    private final int SEND = 1;
 
-    String s;
+    private String s;
 
-    SendFragment sendFragment;
+    private SendFragment sendFragment;
 
     @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
+    private Handler handler = new Handler() {//消息传递，主要负责处理UI
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -47,7 +50,7 @@ class SendController {
     };
 
     SendController(Context context){
-        sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.name);
+        sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.USER);
     }
 
     public void setTodo(Todo todo) {
@@ -55,9 +58,9 @@ class SendController {
     }
 
     void send(SendFragment sendFragment){
-        String id = sharePrefenrenceUtils.QueryShare("id","");
+        String id = sharePrefenrenceUtils.QueryShare(Constant.ID,"");
 
-        if (id.equals("")){
+        if (id.equals("")){//检查本地缓存的用户ID，若ID为空，则需要用户重新登录
             s = "please login again";
             handler.sendEmptyMessage(SEND);
             return;

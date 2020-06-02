@@ -21,29 +21,17 @@ import cn.libv.todo.R;
 public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private AppCompatActivity context;
     private List<Todo> dataList = new ArrayList<>();
-    private static final int TODO = 1;
 
-    public void addAllData(List<Todo> dataList) {
-        this.dataList.addAll(dataList);
-        notifyDataSetChanged();
+    public void addAllData(List<Todo> dataList) {//加载数据
+        try {
+            this.dataList.addAll(dataList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        notifyDataSetChanged();//刷新界面
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return TODO;
-    }
-
-    public void clearData() {
-        this.dataList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void delete(int idx){
-        this.dataList.remove(idx);
-        notifyDataSetChanged();
-    }
-
-    //Todo类型数据的绑定界面
+    //item接界面
     public static class  TodoHolder extends RecyclerView.ViewHolder {
         TextView time,content;
         CardView cardView;
@@ -69,8 +57,10 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return new TodoHolder(v);
     }
 
+
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NotNull final RecyclerView.ViewHolder holder, final int position) {
+        //在界面中数据
         final Todo feedback = dataList.get(position);
         ((TodoHolder) holder).content.setText(feedback.getContent());
         ((TodoHolder) holder).time.setText(feedback.getTime());

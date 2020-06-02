@@ -6,7 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-//数据库事例
+/*
+* 数据库抽象类
+* 实现了单例模式
+*/
 @Database(entities = {TodoEntity.class},version = 1,exportSchema = false)
 public abstract class TodoEntityDataBase extends RoomDatabase {
 

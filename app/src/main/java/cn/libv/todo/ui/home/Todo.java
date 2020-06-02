@@ -1,17 +1,16 @@
 package cn.libv.todo.ui.home;
 
-//{"content":"1","id":1,"time":"2020-05-01","uid":1}
-
+//数据类（从服务器中解析Json变为JavaBean）
 public class Todo {
     private long id;
 
-    private String content;
+    private String content;//内容
 
-    private String time;
+    private String time;//提醒时间
 
-    private long uid;
+    private long uid;//被提醒用户的ID（User ID）
 
-    private long oid;
+    private long oid;//提醒用户的ID（original ID）
 
     public long getId() {
         return id;

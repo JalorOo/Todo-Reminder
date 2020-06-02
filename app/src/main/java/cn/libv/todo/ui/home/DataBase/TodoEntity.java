@@ -3,7 +3,7 @@ package cn.libv.todo.ui.home.DataBase;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-//数据库实体类
+//数据库中Todo实体类
 @Entity
 public class TodoEntity {
     @PrimaryKey(autoGenerate = true)
@@ -15,7 +15,7 @@ public class TodoEntity {
 
     private long uid;
 
-    private long cid;
+    private long cid;//该数据在服务器中的ID（Cloud ID）
 
     public TodoEntity(String content, String time, long uid, long cid){
         this.content = content;

@@ -8,7 +8,10 @@ import androidx.room.Update;
 
 import java.util.List;
 
-//数据库插入
+/*
+* 数据库插入接口
+* 使用了Room提供的注解
+*/
 @Dao
 public interface TodoEntityDao {
     @Insert
@@ -18,8 +21,8 @@ public interface TodoEntityDao {
     void updateTodoEntity(TodoEntity... todoEntities);
 
     @Query("DELETE FROM TODOENTITY")
-    void deleteAllTodoEntity();
+    void deleteAllTodoEntity();//删除所有数据
 
     @Query("SELECT * FROM TODOENTITY ORDER BY TIME DESC")
-    List<TodoEntity> getAllTodoEntity();
+    List<TodoEntity> getAllTodoEntity();//查找数据
 }

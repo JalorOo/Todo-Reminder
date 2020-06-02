@@ -24,10 +24,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {//主活动管理者
 
     private AppBarConfiguration mAppBarConfiguration;
-    NavController navController;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_login,
                 R.id.nav_home, R.id.nav_send)
@@ -51,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        //设置菜单
         getMenuInflater().inflate(R.menu.send, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.nav_send) {
+        if (item.getItemId() == R.id.nav_send) {//若点击了右上角的菜单，则切换至发送页
             try {
                 navController.navigate(R.id.action_nav_home_to_nav_send);
             } catch (Exception e) {

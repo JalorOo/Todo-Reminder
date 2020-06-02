@@ -1,5 +1,6 @@
 package cn.libv.todo.net;
 
+//接受服务器返回信息的反馈类
 public class CallBack {
     private String info;
     private int code;

@@ -3,6 +3,7 @@ package cn.libv.todo.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+//Android SharedPreferences的使用辅助类
 public class SharePrefenrenceUtils {
 
     private SharedPreferences sharedPreferences;

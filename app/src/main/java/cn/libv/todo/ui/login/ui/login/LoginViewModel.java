@@ -1,24 +1,18 @@
 package cn.libv.todo.ui.login.ui.login;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.Patterns;
 
-import cn.libv.todo.R;
-import cn.libv.todo.ui.login.data.LoginRepository;
-import cn.libv.todo.ui.login.data.Result;
-import cn.libv.todo.ui.login.data.model.LoggedInUser;
+import cn.libv.todo.Constant;
 import cn.libv.todo.utils.SharePrefenrenceUtils;
 
+/*
+* 登录界面数据类
+* */
 public class LoginViewModel extends ViewModel {
 
-    private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
     private MutableLiveData<String> name ;
     private MutableLiveData<String> password ;
     private MutableLiveData<String> id ;
@@ -29,18 +23,17 @@ public class LoginViewModel extends ViewModel {
         if (this.isLogin==null){
             this.isLogin = new MutableLiveData<>();
         }
-        Log.d(getClass().getName(),"setIsLogin : "+isLogin);
         this.isLogin.setValue(isLogin);
     }
 
     void setData(Context context){
-        sharePrefenrenceUtils = new SharePrefenrenceUtils(context,"User");
+        sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.USER);
         name = new MutableLiveData<>();
         password = new MutableLiveData<>();
         id = new MutableLiveData<>();
-        name.setValue(sharePrefenrenceUtils.QueryShare("name",""));
-        password.setValue(sharePrefenrenceUtils.QueryShare("password",""));
-        String i = sharePrefenrenceUtils.QueryShare("id","");
+        name.setValue(sharePrefenrenceUtils.QueryShare(Constant.NAME,""));
+        password.setValue(sharePrefenrenceUtils.QueryShare(Constant.PASSWORD,""));
+        String i = sharePrefenrenceUtils.QueryShare(Constant.ID,"");
         id.setValue(i);
         if (i.contentEquals("")){
             setIsLogin(false);
@@ -53,10 +46,6 @@ public class LoginViewModel extends ViewModel {
         return isLogin;
     }
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
-    }
-
     MutableLiveData<String> getName() {
         return name;
     }
@@ -67,53 +56,5 @@ public class LoginViewModel extends ViewModel {
 
     MutableLiveData<String> getID() {
         return id;
-    }
-
-    LiveData<LoginFormState> getLoginFormState() {
-        return loginFormState;
-    }
-
-
-    LiveData<LoginResult> getLoginResult() {
-        return loginResult;
-    }
-
-    public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
-
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-        }
-    }
-
-    public void loginDataChanged(String username, String password) {
-        if (!isUserNameValid(username)) {
-            loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
-        } else if (!isPasswordValid(password)) {
-            loginFormState.setValue(new LoginFormState(null, R.string.invalid_password));
-        } else {
-            loginFormState.setValue(new LoginFormState(true));
-        }
-    }
-
-    // A placeholder username validation check
-    private boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
-    }
-
-    // A placeholder password validation check
-    private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
     }
 }

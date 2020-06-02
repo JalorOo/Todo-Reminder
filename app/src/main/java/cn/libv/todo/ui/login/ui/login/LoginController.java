@@ -24,6 +24,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/*
+* 登录界面请求类
+* */
 class LoginController {
 
     SharePrefenrenceUtils sharePrefenrenceUtils;
@@ -35,10 +38,10 @@ class LoginController {
     LoginController(LoginViewModel loginViewModel,Context context){
         this.loginViewModel = loginViewModel;
         this.context = context.getApplicationContext();
-        sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.name);
+        sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.USER);
     }
 
-    int SEND = 1;
+    int INFO = 1;
     int SUCCESS = 2;
     String s;
 
@@ -47,7 +50,7 @@ class LoginController {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what==SEND){
+            if (msg.what==INFO){
                 Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
             }else if (msg.what==SUCCESS){
                 loginViewModel.setIsLogin(true);
@@ -83,7 +86,7 @@ class LoginController {
                     public void onFailure(Call call, IOException e) {
                         s = e.toString();
                         Log.v(getClass().getName(),"e:"+e.toString());
-                        handler.sendEmptyMessage(SEND);
+                        handler.sendEmptyMessage(INFO);//发送错误信息
                     }
                     //请求成功执行的方法
                     @Override
@@ -94,16 +97,16 @@ class LoginController {
                         Log.v(getClass().getName(),"info:"+callBack.getCode()+"/"+callBack.getInfo());
                         if (callBack.getCode()==200){
                             s = "login success";
-                            sharePrefenrenceUtils.setShare("name",name);
-                            sharePrefenrenceUtils.setShare("password",password);
-                            sharePrefenrenceUtils.setShare("id",callBack.getInfo());
+                            sharePrefenrenceUtils.setShare(Constant.NAME,name);//缓存用户数据
+                            sharePrefenrenceUtils.setShare(Constant.PASSWORD,password);
+                            sharePrefenrenceUtils.setShare(Constant.ID,callBack.getInfo());
                             handler.sendEmptyMessage(SUCCESS);
-                            handler.sendEmptyMessage(SEND);
+                            handler.sendEmptyMessage(INFO);
                         } else if (callBack.getCode()==402) {
-                            register(name,password);
+                            register(name,password);//若用户为空则进行注册
                         } else {
                             s = callBack.getInfo();
-                            handler.sendEmptyMessage(SEND);
+                            handler.sendEmptyMessage(INFO);
                         }
                     }
                 });
@@ -133,7 +136,7 @@ class LoginController {
             @Override
             public void onFailure(Call call, IOException e) {
                 s = e.toString();
-                handler.sendEmptyMessage(SEND);
+                handler.sendEmptyMessage(INFO);
             }
             //请求成功执行的方法
             @Override
@@ -143,19 +146,20 @@ class LoginController {
                 CallBack callBack = gson.fromJson(data, CallBack.class);//解析
                 s = "register "+ callBack.getInfo()+"\nyou can login now";
                 if (callBack.getCode()==200){
-                    sharePrefenrenceUtils.setShare("name",name);
-                    sharePrefenrenceUtils.setShare("password",password);
+                    //缓存用户信息
+                    sharePrefenrenceUtils.setShare(Constant.NAME,name);
+                    sharePrefenrenceUtils.setShare(Constant.PASSWORD,password);
                 }
-                handler.sendEmptyMessage(SEND);
+                handler.sendEmptyMessage(INFO);
             }
         });
     }
 
     void loginOut(){
-        sharePrefenrenceUtils.setShare("name","");
-        sharePrefenrenceUtils.setShare("password","");
-        sharePrefenrenceUtils.setShare("id","");
+        //清空用户信息缓存，仅保留账号名
+        sharePrefenrenceUtils.setShare(Constant.PASSWORD,"");
+        sharePrefenrenceUtils.setShare(Constant.ID,"");
         s = "login out success";
-        handler.sendEmptyMessage(SEND);
+        handler.sendEmptyMessage(INFO);
     }
 }
