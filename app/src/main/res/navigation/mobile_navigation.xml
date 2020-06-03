@@ -19,7 +19,14 @@
         android:id="@+id/nav_send"
         android:name="cn.libv.todo.ui.send.SendFragment"
         android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_send" >
+        <action
+            android:id="@+id/action_nav_send_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_send_to_nav_login"
+            app:destination="@id/nav_login" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_login"

@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 controller.deleteData(viewHolder.getAdapterPosition());//删除数据
+                adapter.delete(viewHolder.getAdapterPosition());
             }
 
             @Override

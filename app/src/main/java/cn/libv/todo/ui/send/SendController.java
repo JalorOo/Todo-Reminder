@@ -1,17 +1,21 @@
 package cn.libv.todo.ui.send;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
 import cn.libv.todo.Constant;
+import cn.libv.todo.R;
 import cn.libv.todo.net.CallBack;
 import cn.libv.todo.ui.home.Todo;
 import cn.libv.todo.utils.SharePrefenrenceUtils;
@@ -38,18 +42,27 @@ class SendController {
 
     private SendFragment sendFragment;
 
+    private Context context;//上下文
+
+    private int code = 0;
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {//消息传递，主要负责处理UI
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what==INFO){
+                if (code==200){//若发送成功
+                    NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment);
+                    navController.popBackStack();
+                }
                 sendFragment.Toast(info);
             }
         }
     };
 
     SendController(Context context){
+        this.context = context;
         sharePrefenrenceUtils = new SharePrefenrenceUtils(context, Constant.USER);
     }
 
@@ -93,6 +106,7 @@ class SendController {
                     //请求失败执行的方法
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        code = 404;
                         info = e.toString();
                         handler.sendEmptyMessage(INFO);
                     }
@@ -103,8 +117,10 @@ class SendController {
                         Gson gson = new Gson();//创建Gson对象
                         CallBack callBack = gson.fromJson(data, CallBack.class);//解析
                         if (callBack.getCode()==200){
+                            code =200;
                             info = "send success";
                         } else {
+                            code =404;
                             info = "fail,please check your network";
                         }
                         handler.sendEmptyMessage(INFO);

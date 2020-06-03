@@ -50,7 +50,6 @@ public class SendFragment extends Fragment {
                 sendController.send(SendFragment.this);
             }
         });
-
         return root;
     }
 

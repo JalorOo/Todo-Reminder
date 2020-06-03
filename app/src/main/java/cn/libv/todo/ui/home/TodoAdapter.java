@@ -24,11 +24,17 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void addAllData(List<Todo> dataList) {//加载数据
         try {
+            this.dataList.clear();//清理数据
             this.dataList.addAll(dataList);
         }catch (Exception e){
             e.printStackTrace();
         }
         notifyDataSetChanged();//刷新界面
+    }
+
+    public void delete(int position){
+        dataList.remove(position);
+        notifyDataSetChanged();
     }
 
     //item接界面
